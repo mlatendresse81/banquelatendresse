@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class Bank – Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container login">
+    <h1>🏦 Class Bank</h1>
+    <p class="subtitle">Grade 5 – Matin & Midi</p>
+    <form id="loginForm">
+      <label>Username</label>
+      <input type="text" id="username" required placeholder="e.g., rowynn.matin" />
+      <label>Password</label>
+      <input type="password" id="password" required />
+      <button type="submit" class="btn primary">Log in</button>
+    </form>
+    <button id="forgotBtn" class="btn link">Forgot your password?</button>
+    <p class="help">Teacher: <strong>Username:</strong> MmeLatendresse • <strong>Initial password:</strong> ChangeMe123!</p>
+  </div>
+  <script>
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const r = await fetch('/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ username: username.value.trim(), password: password.value })});
+      const data = await r.json();
+      if (r.ok) {
+        location.href = '/dashboard.html';
+      } else {
+        alert(data.error || 'Login failed');
+      }
+    });
+    document.getElementById('forgotBtn').addEventListener('click', async ()=>{
+      const u = prompt('Enter your username');
+      if (!u) return;
+      const r = await fetch('/api/forgot-password', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ username: u })});
+      const data = await r.json();
+      alert(data.message || 'Request sent.');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "classbank",
+  "version": "1.0.0",
+  "description": "Class Bank web app for Grade 5 (Matin & Midi)",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "init-db": "node server/seed.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.19.2",
+    "express-session": "^1.17.3",
+    "sqlite3": "^5.1.7",
+    "uuid": "^9.0.1",
+    "cors": "^2.8.5",
+    "connect-sqlite3": "^0.9.15"
+  }
+}
