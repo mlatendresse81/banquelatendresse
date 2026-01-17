@@ -6,26 +6,13 @@ services:
     plan: free
     branch: main
 
-    # Build & run
-    buildCommand: |
-      npm install
-    startCommand: |
-      npm start
+    buildCommand: "npm install"
+    # For the first deploy only, we chain the init into start.
+    # After the first successful deploy, we’ll change start to just: npm start
+    startCommand: "npm run init-db && npm start"
 
-    # Seed the database once when the service instance is first created
-    initCommand: |
-      npm run init-db
-
-    # Persist the SQLite database between restarts/deploys
-    disks:
-      - name: dbdisk
-        mountPath: /opt/render/project/data
-        sizeGB: 1
-
-    # Session secret for logins
     envVars:
       - key: SESSION_SECRET
         generateValue: true
 
-    # Simple health check (optional)
-    healthCheckPath: /
+    healthCheckPath: "/"
