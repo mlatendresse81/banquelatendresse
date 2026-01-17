@@ -1,0 +1,36 @@
+
+# Render Infrastructure as Code
+# Place this file at the root of your repository.
+# After committing, use the Deploy button/link to create the service with the correct settings.
+
+services:
+  - type: web
+    name: classbank
+    env: node
+    plan: free
+    region: ohio
+    branch: main
+    buildCommand: |
+      npm install
+    startCommand: |
+      npm start
+    # Run the database initializer once before the first start.
+    # If you’ve already created the DB elsewhere, you can remove this.
+    initCommand: |
+      npm run init-db
+
+    # Ensure your SQLite database persists between deploys/restarts.
+    # Render mounts /opt/render/project/data as a persistent disk.
+    disk:
+      name: dbdisk
+      mountPath: /opt/render/project/data
+      sizeGB: 1
+
+    envVars:
+      - key: SESSION_SECRET
+        # For security, choose "generateValue: true" OR set a known value in the dashboard later.
+        # Using generateValue makes Render create a long random secret on first deploy.
+        generateValue: true
+
+    # (Optional) Health check – your app serves static + API, so a simple root check is fine.
+    healthCheckPath: /
